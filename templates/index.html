@@ -3,43 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Calendar Events</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
+    <title>Manage Calendar Events</title>
 </head>
 <body>
-    <h1>Upcoming Events</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Event</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for event in events %}
-                <tr>
-                    <td>{{ event['start'].get('dateTime', event['start'].get('date')) }}</td>
-                    <td>{{ event.get('summary', 'No Title') }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Upload MP3 File</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".mp3">
+        <input type="submit" value="Upload">
+    </form>
+    
+    <h2>Upcoming Events</h2>
+    <ul>
+        {% for event in events %}
+            <li>
+                {{ event['start'].get('dateTime', event['start'].get('date')) }} - {{ event.get('summary') }}
+                <form action="/delete/{{ event['id'] }}" method="post" style="display:inline;">
+                    <input type="submit" value="Delete">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
